@@ -1,0 +1,11 @@
+<% collection = f.object.items.includes(:image).order('position') %>
+<div class='wym_box field item_group'>
+  <ul id='page_images' class='clearfix' data-current-count='<%= collection.count %>'>
+    <%= render :partial => 'item',
+                  :collection => collection,
+                  :locals => { :f => f } %>
+  </ul>
+  
+  <%= render :partial => 'empty_image', :locals => {:f => f, :collection_count => collection.count } %> 
+
+</div>

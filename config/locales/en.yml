@@ -33,7 +33,7 @@ en:
             sorry_no_results: Sorry! There are no results found.
             no_items_yet: There are no Galleries yet. Click "Add New Gallery" to add your first gallery.
           gallery:
-            add_image: Add an image to this gallery
+            add_item: Add an image to this gallery
             delete: Remove this gallery forever
             edit: Edit this gallery
             item_count:
@@ -49,7 +49,7 @@ en:
             cover_image_help: The image that is used as the cover of this gallery.
             images: Images
           image_fields:
-            add_new_image: Add an image
+            add_new_item: Add an image
       galleries:
         show:
           other: Other Galleries

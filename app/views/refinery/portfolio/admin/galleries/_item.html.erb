@@ -1,0 +1,15 @@
+<%# It's gross that we have to use the image ID here, but there can't be prediction of item ID %>
+<li id='<%= "image_#{item.image.id}" %>' class='item_field'>
+  <div class='thumb'><%= image_tag item.image.thumbnail(:medium).url %></div>
+  <div class='item_actions'>
+    <div class='floater'>
+      <%= image_tag('refinery/icons/user_comment.png', {:width => 22, :height => 22, :class => 'caption', :alt => 'edit' }) %>
+      <%= image_tag('refinery/icons/delete.png', {:width => 22, :height => 22, :class => 'delete_item', :alt => 'delete' }) %>
+    </div>
+  </div>
+  <div class='attributes'>
+    <%= hidden_field_tag "gallery[items_attributes][#{item_counter}][image_id]", item.image.id, :id => nil, :class => 'image_id' %>
+    <div class='textarea_wrapper_for_wym'>
+      <%= text_area_tag "gallery[items_attributes][#{item_counter}][caption]", item.caption, :style => 'display: none', :id => "item_captions_#{item_counter}", :class => 'item_caption' %>
+  </div>
+</li>

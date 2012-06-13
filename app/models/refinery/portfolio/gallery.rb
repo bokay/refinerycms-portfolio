@@ -16,7 +16,7 @@ module Refinery
 
       attr_accessible   :title, :body, :lft, :rgt,
                         :position, :gallery_type, :depth,
-                        :parent_id, :images
+                        :parent_id, :items_attributes
 
       alias_attribute :description, :body
 
@@ -28,18 +28,19 @@ module Refinery
         items.sort_by(&:position).first if items.present?
       end
 
-      # We reject any empty ones because we have a template sitting around
-      # (Probably not the best way to do this, but it's what the project 
-      # we cribbed the multi-image tab from did, and it's what we're doing 
-      # in the interest of time.
-      def images=(ids = [])
-        @image_ids = ids.reject(&:empty?).map(&:to_i).uniq
+      def items_attributes=(items_attributes = {})
+        #@image_ids = ids.reject(&:empty?).map(&:to_i).uniq
+        @items_attributes = items_attributes.delete_if {|k, v| k.empty? }
       end
 
       # Don't upload duplicate images
       def bulk_update_associated_items
-        return unless @image_ids.present?
-        @image_ids.each_with_index { |image_id, position| update_position_or_create_item(image_id, position) }
+        return unless @items_attributes.present?
+
+        @items_attributes.each_with_index do |(k, item), position|
+          update_position_or_create_item(item[:image_id].to_i, position, item[:caption]) unless item[:image_id].empty?
+        end
+
         delete_removed_items
       end
 
@@ -49,10 +50,10 @@ module Refinery
         @existing_image_ids ||= self.items.pluck(:image_id)
       end
 
-      def update_position_or_create_item(image_id, position)
+      def update_position_or_create_item(image_id, position, caption = "")
         # If that image ID already exists, update its item's position
         if existing_image_ids.include? image_id
-          items.find_by_image_id(image_id).update_attribute(:position, position)
+          items.find_by_image_id(image_id).update_attributes({:position => position, :caption => caption})
         # If image_id is not in existing_ids, create a new one
 
         else
@@ -60,7 +61,8 @@ module Refinery
             :title => "#{title} #{position}",
             :position => position,
             :gallery_id => id,
-            :image_id => image_id
+            :image_id => image_id,
+            :caption => caption
           })
         end
       end
@@ -73,7 +75,7 @@ module Refinery
         #
         # That is:
         # [1 2 3] - [1 2 4] = [3]
-        removed_items = items.find_all_by_image_id(existing_image_ids - @image_ids)
+        removed_items = items.find_all_by_image_id(existing_image_ids - @items_attributes.values.map {|i| i[:image_id].to_i})
         removed_items.map(&:destroy)
       end
     end

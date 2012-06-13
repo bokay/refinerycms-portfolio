@@ -1,11 +1,15 @@
-<li id='' class='image_field blank'>
+<li id='' class='item_field blank'>
   <div class='thumb'></div>
-  <div class='image_actions'>
+  <div class='item_actions'>
     <div class='floater'>
-      <%= image_tag('refinery/icons/delete.png', {:width => 22, :height => 22, :class => 'delete_image', :alt => 'delete' }) %>
+      <%= image_tag('refinery/icons/user_comment.png', {:width => 22, :height => 22, :class => 'caption', :alt => 'edit' }) %>
+      <%= image_tag('refinery/icons/delete.png', {:width => 22, :height => 22, :class => 'delete_item', :alt => 'delete' }) %>
     </div>
   </div>
   <div class='attributes'>
-    <%= f.hidden_field :images, :name => "gallery[images][]", :id => nil, :class => 'image_id', :value => nil %>
+    <%= hidden_field_tag "", nil, :id => nil, :class => 'image_id' %>
+    <div class='textarea_wrapper_for_wym'>
+      <%= text_area_tag "", '', :style => 'display: none', :id => "item_captions_#{collection_count}", :class => 'item_caption' %>
+    </div>
   </div>
 </li>
