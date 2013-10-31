@@ -44,6 +44,10 @@ module Refinery
         delete_removed_items
       end
 
+       def should_generate_new_friendly_id?
+         new_record?
+       end
+
       private
 
       def existing_image_ids

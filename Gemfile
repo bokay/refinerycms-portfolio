@@ -4,6 +4,7 @@ gemspec
 
 gem 'refinerycms', '~> 2.1.0.dev', :git => 'git://github.com/resolve/refinerycms.git'
 gem 'refinerycms-i18n', '~> 2.1.0.dev', :git => 'git://github.com/parndt/refinerycms-i18n.git'
+gem 'friendly_id'
 
 group :development, :testing do
   gem 'refinerycms-testing', '~> 2.1.0.dev', :git => 'git://github.com/resolve/refinerycms.git'
